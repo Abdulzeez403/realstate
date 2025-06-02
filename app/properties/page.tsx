@@ -1,41 +1,29 @@
-import { Metadata } from "next";
+"use client";
 import { properties } from "@/data/properties";
 import PropertyList from "@/components/properties/PropertyList";
 import PropertyFilters from "@/components/properties/PropertyFilters";
+import { useSearchParams } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Properties | LuxuryEstate",
-  description: "Browse our exclusive collection of luxury properties",
-};
-export const dynamic = "force-dynamic";
+// export const metadata: Metadata = {
+//   title: "Properties | LuxuryEstate",
+//   description: "Browse our exclusive collection of luxury properties",
+// };
 
-export default function PropertiesPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const type =
-    typeof searchParams.type === "string" ? searchParams.type : "all";
-  const featured = searchParams.featured === "true";
+export default function PropertiesPage() {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type") || "all";
+  const featured = searchParams.get("featured") === "true";
 
   let filteredProperties = properties;
 
-  // Apply type filter
   if (type === "sale") {
-    filteredProperties = properties.filter(
-      (property) => property.listingType === "Sale"
-    );
+    filteredProperties = properties.filter((p) => p.listingType === "Sale");
   } else if (type === "rent") {
-    filteredProperties = properties.filter(
-      (property) => property.listingType === "Rent"
-    );
+    filteredProperties = properties.filter((p) => p.listingType === "Rent");
   }
 
-  // Apply featured filter
   if (featured) {
-    filteredProperties = filteredProperties.filter(
-      (property) => property.featured
-    );
+    filteredProperties = filteredProperties.filter((p) => p.featured);
   }
 
   return (
