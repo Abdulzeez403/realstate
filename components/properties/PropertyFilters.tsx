@@ -1,68 +1,75 @@
 "use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { CheckboxItem } from '@/components/ui/checkbox';
-import { 
-  Accordion, 
-  AccordionContent, 
-  AccordionItem, 
-  AccordionTrigger 
-} from '@/components/ui/accordion';
-import { Search, RefreshCw } from 'lucide-react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Search, RefreshCw } from "lucide-react";
 
 interface PropertyFiltersProps {
   currentType?: string;
 }
 
-const PropertyFilters = ({ currentType = 'all' }: PropertyFiltersProps) => {
+const PropertyFilters = ({ currentType = "all" }: PropertyFiltersProps) => {
   const router = useRouter();
-  
+
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000000]);
   const [selectedType, setSelectedType] = useState<string>(currentType);
   const [bedrooms, setBedrooms] = useState<number | null>(null);
   const [bathrooms, setBathrooms] = useState<number | null>(null);
   const [propertyTypes, setPropertyTypes] = useState<string[]>([]);
   const [amenities, setAmenities] = useState<string[]>([]);
-  
+
   const handleSearch = () => {
     // In a real app, this would build a query string and navigate
-    console.log('Filter values:', { priceRange, selectedType, bedrooms, bathrooms, propertyTypes, amenities });
-    
+    console.log("Filter values:", {
+      priceRange,
+      selectedType,
+      bedrooms,
+      bathrooms,
+      propertyTypes,
+      amenities,
+    });
+
     // Example of how you might navigate with these filters
     const params = new URLSearchParams();
-    params.set('type', selectedType);
-    if (bedrooms) params.set('beds', bedrooms.toString());
-    if (bathrooms) params.set('baths', bathrooms.toString());
-    if (propertyTypes.length) params.set('propertyTypes', propertyTypes.join(','));
-    params.set('minPrice', priceRange[0].toString());
-    params.set('maxPrice', priceRange[1].toString());
-    
+    params.set("type", selectedType);
+    if (bedrooms) params.set("beds", bedrooms.toString());
+    if (bathrooms) params.set("baths", bathrooms.toString());
+    if (propertyTypes.length)
+      params.set("propertyTypes", propertyTypes.join(","));
+    params.set("minPrice", priceRange[0].toString());
+    params.set("maxPrice", priceRange[1].toString());
+
     router.push(`/properties?${params.toString()}`);
   };
-  
+
   const handleReset = () => {
     setPriceRange([0, 10000000]);
-    setSelectedType('all');
+    setSelectedType("all");
     setBedrooms(null);
     setBathrooms(null);
     setPropertyTypes([]);
     setAmenities([]);
   };
-  
+
   const togglePropertyType = (type: string) => {
     if (propertyTypes.includes(type)) {
-      setPropertyTypes(propertyTypes.filter(t => t !== type));
+      setPropertyTypes(propertyTypes.filter((t) => t !== type));
     } else {
       setPropertyTypes([...propertyTypes, type]);
     }
   };
-  
+
   const toggleAmenity = (amenity: string) => {
     if (amenities.includes(amenity)) {
-      setAmenities(amenities.filter(a => a !== amenity));
+      setAmenities(amenities.filter((a) => a !== amenity));
     } else {
       setAmenities([...amenities, amenity]);
     }
@@ -71,35 +78,42 @@ const PropertyFilters = ({ currentType = 'all' }: PropertyFiltersProps) => {
   return (
     <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
       <div className="mb-6">
-        <h2 className="text-xl font-serif font-semibold mb-4">Filter Properties</h2>
+        <h2 className="text-xl font-serif font-semibold mb-4">
+          Filter Properties
+        </h2>
         <div className="flex space-x-2 mb-6">
-          <Button 
-            variant={selectedType === 'all' ? 'default' : 'outline'} 
+          <Button
+            variant={selectedType === "all" ? "default" : "outline"}
             size="sm"
-            onClick={() => setSelectedType('all')}
+            onClick={() => setSelectedType("all")}
           >
             All
           </Button>
-          <Button 
-            variant={selectedType === 'sale' ? 'default' : 'outline'} 
+          <Button
+            variant={selectedType === "sale" ? "default" : "outline"}
             size="sm"
-            onClick={() => setSelectedType('sale')}
+            onClick={() => setSelectedType("sale")}
           >
             For Sale
           </Button>
-          <Button 
-            variant={selectedType === 'rent' ? 'default' : 'outline'} 
+          <Button
+            variant={selectedType === "rent" ? "default" : "outline"}
             size="sm"
-            onClick={() => setSelectedType('rent')}
+            onClick={() => setSelectedType("rent")}
           >
             For Rent
           </Button>
         </div>
       </div>
 
-      <Accordion type="multiple" defaultValue={['price', 'bedrooms', 'bathrooms']}>
+      <Accordion
+        type="multiple"
+        defaultValue={["price", "bedrooms", "bathrooms"]}
+      >
         <AccordionItem value="price">
-          <AccordionTrigger className="text-lg font-medium">Price Range</AccordionTrigger>
+          <AccordionTrigger className="text-lg font-medium">
+            Price Range
+          </AccordionTrigger>
           <AccordionContent>
             <div className="py-4">
               <Slider
@@ -118,17 +132,19 @@ const PropertyFilters = ({ currentType = 'all' }: PropertyFiltersProps) => {
         </AccordionItem>
 
         <AccordionItem value="bedrooms">
-          <AccordionTrigger className="text-lg font-medium">Bedrooms</AccordionTrigger>
+          <AccordionTrigger className="text-lg font-medium">
+            Bedrooms
+          </AccordionTrigger>
           <AccordionContent>
             <div className="py-2 flex flex-wrap gap-2">
               {[null, 1, 2, 3, 4, 5].map((num) => (
-                <Button 
-                  key={num === null ? 'any' : num}
-                  variant={bedrooms === num ? 'default' : 'outline'} 
+                <Button
+                  key={num === null ? "any" : num}
+                  variant={bedrooms === num ? "default" : "outline"}
                   size="sm"
                   onClick={() => setBedrooms(num)}
                 >
-                  {num === null ? 'Any' : num === 5 ? '5+' : num}
+                  {num === null ? "Any" : num === 5 ? "5+" : num}
                 </Button>
               ))}
             </div>
@@ -136,17 +152,19 @@ const PropertyFilters = ({ currentType = 'all' }: PropertyFiltersProps) => {
         </AccordionItem>
 
         <AccordionItem value="bathrooms">
-          <AccordionTrigger className="text-lg font-medium">Bathrooms</AccordionTrigger>
+          <AccordionTrigger className="text-lg font-medium">
+            Bathrooms
+          </AccordionTrigger>
           <AccordionContent>
             <div className="py-2 flex flex-wrap gap-2">
               {[null, 1, 2, 3, 4, 5].map((num) => (
-                <Button 
-                  key={num === null ? 'any' : num}
-                  variant={bathrooms === num ? 'default' : 'outline'} 
+                <Button
+                  key={num === null ? "any" : num}
+                  variant={bathrooms === num ? "default" : "outline"}
                   size="sm"
                   onClick={() => setBathrooms(num)}
                 >
-                  {num === null ? 'Any' : num === 5 ? '5+' : num}
+                  {num === null ? "Any" : num === 5 ? "5+" : num}
                 </Button>
               ))}
             </div>
@@ -154,10 +172,12 @@ const PropertyFilters = ({ currentType = 'all' }: PropertyFiltersProps) => {
         </AccordionItem>
 
         <AccordionItem value="propertyType">
-          <AccordionTrigger className="text-lg font-medium">Property Type</AccordionTrigger>
+          <AccordionTrigger className="text-lg font-medium">
+            Property Type
+          </AccordionTrigger>
           <AccordionContent>
             <div className="py-2 space-y-2">
-              {['House', 'Apartment', 'Condo', 'Villa', 'Land'].map((type) => (
+              {["House", "Apartment", "Condo", "Villa", "Land"].map((type) => (
                 <div key={type} className="flex items-center">
                   <input
                     type="checkbox"
@@ -166,7 +186,10 @@ const PropertyFilters = ({ currentType = 'all' }: PropertyFiltersProps) => {
                     onChange={() => togglePropertyType(type)}
                     className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                   />
-                  <label htmlFor={`type-${type}`} className="ml-2 text-sm font-medium">
+                  <label
+                    htmlFor={`type-${type}`}
+                    className="ml-2 text-sm font-medium"
+                  >
                     {type}
                   </label>
                 </div>
@@ -176,10 +199,21 @@ const PropertyFilters = ({ currentType = 'all' }: PropertyFiltersProps) => {
         </AccordionItem>
 
         <AccordionItem value="amenities">
-          <AccordionTrigger className="text-lg font-medium">Amenities</AccordionTrigger>
+          <AccordionTrigger className="text-lg font-medium">
+            Amenities
+          </AccordionTrigger>
           <AccordionContent>
             <div className="py-2 space-y-2">
-              {['Swimming Pool', 'Garden', 'Garage', 'Balcony', 'Air Conditioning', 'Gym', 'Fireplace', 'Security System'].map((amenity) => (
+              {[
+                "Swimming Pool",
+                "Garden",
+                "Garage",
+                "Balcony",
+                "Air Conditioning",
+                "Gym",
+                "Fireplace",
+                "Security System",
+              ].map((amenity) => (
                 <div key={amenity} className="flex items-center">
                   <input
                     type="checkbox"
@@ -188,7 +222,10 @@ const PropertyFilters = ({ currentType = 'all' }: PropertyFiltersProps) => {
                     onChange={() => toggleAmenity(amenity)}
                     className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                   />
-                  <label htmlFor={`amenity-${amenity}`} className="ml-2 text-sm font-medium">
+                  <label
+                    htmlFor={`amenity-${amenity}`}
+                    className="ml-2 text-sm font-medium"
+                  >
                     {amenity}
                   </label>
                 </div>
