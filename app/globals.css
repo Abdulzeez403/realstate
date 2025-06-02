@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 218 72% 18%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 45 70% 52%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 349 77% 59%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
+  }
+  
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 0 0% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 0 0% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 210 70% 40%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 45 70% 52%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 349 77% 59%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+  p, span, a, button, input, select, textarea {
+    @apply font-sans;
+  }
+}
+
+.hero-gradient {
+  background: linear-gradient(rgba(15, 52, 96, 0.7), rgba(15, 52, 96, 0.5)), var(--image-url);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.property-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.property-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.property-badge {
+  @apply absolute top-4 left-4 px-2 py-1 text-xs font-medium rounded;
+}
+
+.property-badge.sale {
+  @apply bg-accent text-white;
+}
+
+.property-badge.rent {
+  @apply bg-primary text-white;
+}
+
+.text-gold {
+  color: #D4AF37;
+}
+
+.bg-gold {
+  background-color: #D4AF37;
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #F2D675 100%);
+}
